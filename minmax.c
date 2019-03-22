@@ -3,19 +3,33 @@
 #include <pthread.h>
 
 void *minmax(void *val);
+void newthread(int message[]);
+
+int threads = 6;
+int global_min;
+int global_max;
+pthread_mutex_t lock;
 
 int main()
 {
-	pthread_t tid, ti2;
 	int message[5] = {3, 5, 9, 2};
 	int message2[5] = {4, 1, 3, 99, 101};
-	int iret, iret2;
 
-	iret = pthread_create(&tid, NULL, minmax, (void*)message);
-	iret2 = pthread_create(&ti2, NULL, minmax, (void*)message2);
-	pthread_join(tid, NULL);
-
+	for(int i=0; i<threads; i++){
+		newthread(message2);
+	}
 	return 0;
+}
+
+void newthread(int message[])
+{
+	void *status;
+	pthread_t tid;
+	int iret;
+
+	pthread_mutex_init(&lock, NULL);
+	iret = pthread_create(&tid, NULL, minmax, (void*)message);
+	pthread_join(tid, &status);
 }
 
 void *minmax(void *val)
@@ -36,10 +50,20 @@ void *minmax(void *val)
 		}
 	}
 
+	pthread_mutex_lock(&lock);
+	if(min > global_min){
+		global_min = min;
+	}
+	if(max < global_max){
+		global_max = max;
+	}
+	pthread_mutex_unlock(&lock);
+
 	int res[2];
 	res[0] = min;
 	res[1] = max;
 	printf ("MIN: %d\n", res[0]);
 	printf ("MAX: %d\n", res[1]);
+	
+	pthread_exit((void*) res);
 }
-
