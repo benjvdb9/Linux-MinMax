@@ -7,13 +7,22 @@
     int sizeArray;
     int i=0,j=0;
     int k=0;
-    int n=6;
+    int n;
 
-    int * getDigits(FILE *file){
+    struct MatrixLigneCol
+    {
+        int *matrix;
+        int ligne, col;
+    };
+    
+    
+    struct MatrixLigneCol getDigits(FILE *file){
         int buff[255] ; 
         int i=0;
     
-        
+        printf("choisez le nombre de processus ");
+        scanf("%d",&n); 
+
         if (file == NULL) 
         {   
         printf("Error! Could not open file\n"); 
@@ -31,7 +40,13 @@
                     }
                     k=k+sizeArray;
             }
-            return intMatrix;   
+
+            struct MatrixLigneCol fileValueMa;
+            fileValueMa.col=sizeArray;
+            fileValueMa.ligne=n;
+            fileValueMa.matrix=intMatrix;
+
+            return fileValueMa;   
         }
 
     }
@@ -40,14 +55,24 @@
     { 
         FILE  * file = fopen("le_fichier.txt", "r");
 
-        int *intMatrix = getDigits(file);
+        
+     
 
+        struct MatrixLigneCol filevalue;
+        filevalue = getDigits(file);
+
+        int sizeArray=filevalue.col;
+        int n= filevalue.ligne;
+        int *intMatrix = filevalue.matrix;
+        
      // int i;
         for(i=0;i<n;i++){
           for(j=0;j<sizeArray;j++)
               printf("%d ", *(intMatrix + i*sizeArray + j));
            printf("\n");
         }
+
+        printf("% d  %d ",n  ,sizeArray);
         fclose(file);
         return 0; 
    
