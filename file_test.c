@@ -22,7 +22,7 @@
         size++;
         i++;
     } 
-
+    sizeArray=size/n;
         int *intMatrix =(int *) malloc(n * sizeArray * sizeof(int)); 
         for(i=0;i<n;i++){
             for(j=0;j<sizeArray;j++){
@@ -30,6 +30,12 @@
                 }
                 k=k+sizeArray;
             }
+
+            
+             for(i=0;i<n;i++){
+        for(j=0;j<sizeArray;j++){
+            printf("%d ", *(intMatrix + i*sizeArray + j));
+        }
             return intMatrix;
     
         }
@@ -37,20 +43,22 @@
         
         }
 
+  }
+
     int main() 
     { 
-    FILE * file = fopen("le_fichier.txt", "r");
+    FILE  * file = fopen("le_fichier.txt", "r");
 
     int *intMatrix = getDigits(file);
 
     int i;
     for(i=0;i<n;i++){
-        for(j=0;j<sizeArray;j++){
+        for(j=0;j<sizeArray;j++)
             printf("%d ", *(intMatrix + i*sizeArray + j));
         }
              printf(" \n");
    
   fclose(file);
   return 0; 
-} 
+ 
     }
