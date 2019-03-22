@@ -1,34 +1,56 @@
 
 #include <stdio.h> 
 #include<stdlib.h>
-  
-int main() 
-{ 
-  FILE *fp = fopen("le_fichier.txt", "r"); 
-  int ch = getc(fp); 
-  int size=0,i=0;
-  int *buf=NULL;
-  while (ch != EOF)  
-  { 
-    /* display contents of file on screen */ 
-    putchar(ch);  
-     if (isdigit(ch))
-            size++;
-    ch = getc(fp); 
-  } 
-  printf("size %d",size);
+#include<math.h>
 
-   buf = malloc(size*sizeof(int));
-    fseek( fp, 0, SEEK_SET );
-     while (fscanf(fp, "%d", buf+i) != EOF) {
-            ++i;
-            printf("rr");
+  int size=0;
+  int sizeArray;
+   int j=0;
+    int k=0;
+    int n=6;
+  int * getDigits(FILE *file){
+  int buff[255] ; 
+  int i=0;
+ 
+   
+  if (file == NULL) 
+  {   
+    printf("Error! Could not open file\n"); 
+    exit(-1);
+   }else{
+    while (fscanf(file, "%d", buff+i) != EOF){
+        size++;
+        i++;
+    } 
+
+        int *intMatrix =(int *) malloc(n * sizeArray * sizeof(int)); 
+        for(i=0;i<n;i++){
+            for(j=0;j<sizeArray;j++){
+                *(intMatrix + i*sizeArray + j)=*(buff+k+j);    
+                }
+                k=k+sizeArray;
+            }
+            return intMatrix;
+    
         }
         
-    for (i = 0; i < size; i++)
-    {
-        printf("Number is: %d\n\n", *(buf+i));
-    }
+        
+        }
 
+    int main() 
+    { 
+    FILE * file = fopen("le_fichier.txt", "r");
+
+    int *intMatrix = getDigits(file);
+
+    int i;
+    for(i=0;i<n;i++){
+        for(j=0;j<sizeArray;j++){
+            printf("%d ", *(intMatrix + i*sizeArray + j));
+        }
+             printf(" \n");
+   
+  fclose(file);
   return 0; 
 } 
+    }
