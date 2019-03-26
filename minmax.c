@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include<math.h>
+#include <math.h>
+#include <time.h>
 
 void *minmax(void *val);
 void newthread(void *message);
 
-int threads = 6;
 int global_min;
 int global_max;
+int threads_completed = 0;
 pthread_mutex_t lock;
 
 int size=0;
@@ -82,6 +83,28 @@ int test()
 	return 0; 
 }
 
+void copyMemUse()
+{
+	char ch;
+	FILE *source, *target;
+
+	source = fopen("/proc/self/status", "r");
+
+	if (source == NULL)
+	{
+		exit(EXIT_FAILURE);
+	}
+
+	target = fopen("Thread_Stats.txt", "w");
+
+	while((ch = fgetc(source)) != EOF)
+		fputc(ch, target);
+
+	printf("See Thread_Stats.txt for Memory Usage.\n");
+	fclose(source);
+	fclose(target);
+}
+
 struct data
 {
 	int size;
@@ -90,6 +113,9 @@ struct data
 
 int main()
 {
+	clock_t start, end;
+	double cpu_time;
+	start = clock();
 	FILE  * file = fopen("le_fichier.txt", "r");
 
         
@@ -100,9 +126,8 @@ int main()
 	int n= filevalue.ligne;
 	int *intMatrix = filevalue.matrix;
 
-	int message[5] = {3, 5, 9, 2};
-	int message2[5] = {4, 1, 3, 99, 101};
-
+	global_min = intMatrix[0];
+	global_max = intMatrix[0];
 	for(int i=0; i<n; i++){
 		struct data *t_pointer, thread_msg;
 		thread_msg.size = sizeArray;
@@ -110,6 +135,15 @@ int main()
 		t_pointer = &thread_msg;
 		newthread(t_pointer);
 	}
+
+	while(threads_completed < n);
+	printf("GLOBAL MAX: %d\n", global_max);
+	printf("GLOBAL MIN: %d\n", global_min);
+	
+	end = clock();
+	cpu_time = ((double) (end - start) * 1000) / CLOCKS_PER_SEC;
+	printf("\nTIME: %fms\n", cpu_time);
+	copyMemUse();
 	return 0;
 }
 
@@ -147,12 +181,13 @@ void *minmax(void *val)
 	}
 
 	pthread_mutex_lock(&lock);
-	if(min > global_min){
+	if(min < global_min){
 		global_min = min;
 	}
-	if(max < global_max){
+	if(max > global_max){
 		global_max = max;
 	}
+	threads_completed++;
 	pthread_mutex_unlock(&lock);
 
 	int res[2];
