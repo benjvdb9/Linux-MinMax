@@ -123,13 +123,10 @@ int main ()
 		}else{
 			op++;
 		}
-
-
-
 	}
 
 	struct data *t_pointer, thread_msg;
-	thread_msg.size = 6;
+	thread_msg.size = sizeof(out_pipe)/sizeof(out_pipe[0]);
 	thread_msg.numbers = out_pipe - 1;
 	t_pointer = &thread_msg;
 
