@@ -28,20 +28,25 @@
         int k=0;
         int n;
 
-        printf("choose the number of processes or threads : ");
-        scanf("%d",&n);
-
         // test if there is a file 
         if (file == NULL)
         {
             printf("Error! Could not open file\n");
             exit(-1);
         }else{
-            //read  evry digit from file  and put it in the buff
+            //read  every digit from file  and put it in the buff
             while (fscanf(file, "%d", buff+i) != EOF){
                 size++;
                 i++;
             }
+            
+            do{
+                printf("choose the number of processes or threads : ");
+                scanf("%d",&n);
+                if(n>size)
+                    printf("The number of the  processes or threads must be less than number of digits in the file ");
+            }while(n>size);
+            
 
             sizeArray=size/n;
             int *intMatrix =(int *) malloc(n * sizeArray * sizeof(int));
