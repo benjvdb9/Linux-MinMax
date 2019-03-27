@@ -4,6 +4,10 @@
 #include <sys/types.h> /* pour le type pid_t*/
 #include <sys/errno.h>
 #include <sys/wait.h>
+#include <string.h>
+
+#define MSGSIZE 10
+
 
 
 pid_t create_process();
@@ -76,6 +80,16 @@ int main ()
   int jp=0;
 
 
+	char buffer1[MSGSIZE];
+	char buffer2[MSGSIZE];
+	char inbuf[MSGSIZE];
+	int out_pipe[MSGSIZE];
+	//char **pointer_out_pipe;
+	int p[2] ; // the pipe
+	pipe(p);
+	int	*pipe_value; //	pipe data
+	int op = 0;
+	int nbytes;
 
   atexit(terminer);
 
@@ -89,7 +103,6 @@ int main ()
 	int lp= filevalue.ligne -1;
 	int *intMatrix = filevalue.matrix;
 
-
 	pid_t pid[lp];
 	int codesortie[lp];
 
@@ -100,12 +113,21 @@ int main ()
     pid[ip] = create_process();
     if(pid[ip] ==0)
     {
-			printf("je suis le fils %d avec PID: %d\n" , (int) ip, (int) getpid());
+				close(p[0]); //close in read
 				struct data *t_pointer, thread_msg;
 				thread_msg.size = sizeArray;
 				thread_msg.numbers = intMatrix + (ip*sizeArray) - 1;
 				t_pointer = &thread_msg;
-				minmax(t_pointer);
+				pipe_value = minmax(t_pointer);
+
+				close(p[0]); //close in read
+				sprintf(buffer1, "%d",pipe_value[0] );
+				sprintf(buffer2, "%d",pipe_value[1] );
+				write(p[1],buffer1 ,MSGSIZE);
+				write(p[1],buffer2,MSGSIZE);
+				printf("je suis le fils %d avec PID %d et de pipe_value: %d et %d\n "
+				, (int) ip, (int) getpid(), pipe_value[0], pipe_value[1]);
+
 
 
       	_exit(0); // don't exec the function "atexit" for the child
@@ -138,11 +160,33 @@ int main ()
 
   printf("je suis le père  avec PID %d\n" ,  (int) getpid());
 
-  exit(0); //execution of the function "atexit" for the father
+	while((nbytes = read(p[0],inbuf,MSGSIZE ))!= 0)
+	{
+		close(p[1]);
+		out_pipe[op]=atoi (inbuf);
+		if (op > MSGSIZE){
+			break;
+		}else{
+			op++;
+		}
 
+
+
+	}
+
+	struct data *t_pointer, thread_msg;
+	thread_msg.size = 6;
+	thread_msg.numbers = out_pipe - 1;
+	t_pointer = &thread_msg;
+
+	minmax(t_pointer);
+
+
+
+	exit(0); //execution of  function "atexit" for the father
+
+	return 0;
 }
-
-
 
 pid_t create_process()
 {
@@ -164,7 +208,7 @@ void *minmax(void *val)
 
 	int min = values[1];
 	int max = values[1];
-	printf("START\n");
+	 printf("START\n");
 	for (int i=1; i<=sizeVals; i++)
 	{
 		if(min > values[i]){
@@ -176,13 +220,11 @@ void *minmax(void *val)
 		printf("%d\n", values[i]);
 	}
 
-
-
-
-	int res[2];
+static	int res[2];
 	res[0] = min;
 	res[1] = max;
 	printf ("MIN: %d\n", res[0]);
 	printf ("MAX: %d\n", res[1]);
-	_exit(0);
+	//_exit(0);
+	return res;
 }

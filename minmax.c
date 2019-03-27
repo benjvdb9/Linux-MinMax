@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <math.h>
 #include <time.h>
+#include<math.h>
 
 void *minmax(void *val);
 void newthread(void *message);
@@ -23,27 +24,26 @@ struct MatrixLigneCol
 	int *matrix;
 	int ligne, col;
 };
-    
-    
+
 struct MatrixLigneCol getDigits(FILE *file)
 {
-	int buff[255] ; 
+	int buff[255] ;
 	int i=0;
-    
-	printf("choisez le nombre de processus ");
-	scanf("%d",&n); 
 
-	if (file == NULL) 
-	{   
-		printf("Error! Could not open file\n"); 
+	printf("choisez le nombre de processus ");
+	scanf("%d",&n);
+
+	if (file == NULL)
+	{
+		printf("Error! Could not open file\n");
 		exit(-1);
 	}else{
 	while (fscanf(file, "%d", buff+i) != EOF){
 		size++;
 		i++;
-	} 
+	}
         sizeArray=size/n;
-        int *intMatrix =(int *) malloc(n * sizeArray * sizeof(int)); 
+        int *intMatrix =(int *) malloc(n * sizeArray * sizeof(int));
         for(i=0;i<n;i++){
         	for(j=0;j<sizeArray;j++){
 			*(intMatrix + i*sizeArray + j)=*(buff+k+j);
@@ -63,7 +63,6 @@ int test()
 {
 	FILE  * file = fopen("le_fichier.txt", "r");
 
-        
 	struct MatrixLigneCol filevalue;
 	filevalue = getDigits(file);
 
@@ -103,6 +102,7 @@ void copyMemUse()
 	printf("See Thread_Stats.txt for Memory Usage.\n");
 	fclose(source);
 	fclose(target);
+	return 0;
 }
 
 struct data
@@ -128,6 +128,7 @@ int main()
 
 	global_min = intMatrix[0];
 	global_max = intMatrix[0];
+
 	for(int i=0; i<n; i++){
 		struct data *t_pointer, thread_msg;
 		thread_msg.size = sizeArray;
@@ -195,6 +196,6 @@ void *minmax(void *val)
 	res[1] = max;
 	printf ("MIN: %d\n", res[0]);
 	printf ("MAX: %d\n", res[1]);
-	
+
 	pthread_exit((void*) res);
 }

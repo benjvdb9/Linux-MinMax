@@ -1,3 +1,4 @@
+
   #include <stdio.h>
   #include<stdlib.h>
   #include<math.h>
@@ -49,30 +50,3 @@
         }
 
     }
-
-    int main()
-    {
-        FILE  * file = fopen("le_fichier.txt", "r");
-
-
-
-
-        struct MatrixLigneCol filevalue;
-        filevalue = getDigits(file);
-
-        int sizeArray=filevalue.col;
-        int n= filevalue.ligne;
-        int *intMatrix = filevalue.matrix;
-
-     // int i;
-        for(i=0;i<n;i++){
-          for(j=0;j<sizeArray;j++)
-              printf("%d ", *(intMatrix + i*sizeArray + j));
-           printf("\n");
-        }
-
-        printf("% d  %d ",n  ,sizeArray);
-        fclose(file);
-        return 0;
-
-      }
