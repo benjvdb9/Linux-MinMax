@@ -37,6 +37,7 @@
             printf("Error! Could not open file\n");
             exit(-1);
         }else{
+            //read  evry digit from file  and put it in the buff
             while (fscanf(file, "%d", buff+i) != EOF){
                 size++;
                 i++;
@@ -44,7 +45,7 @@
 
             sizeArray=size/n;
             int *intMatrix =(int *) malloc(n * sizeArray * sizeof(int));
-            
+
             for(i=0;i<n;i++){
                 for(j=0;j<sizeArray;j++){
                     *(intMatrix + i*sizeArray + j)=*(buff+k+j);
@@ -62,6 +63,8 @@
 
     }
 
+    //Copies the content of /proc/self/status contaning
+    //all the Memory usage stats to a file
     void copyMemUse()
     {
         char ch;
