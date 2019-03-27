@@ -5,29 +5,30 @@
   #include<stdlib.h>
   #include<math.h>
 
-    int size=0;
-    int sizeArray;
-    int i=0,j=0;
-    int k=0;
-    int n;
-
-    struct MatrixLigneCol
+//create MatrixLineColumn type 
+    struct MatrixLineCol
     {
         int *matrix;
-        int ligne, col;
+        int line, col;
     };
 
+// create data type
     struct data
     {
         int size;
         int *numbers;
     };   
 
-    struct MatrixLigneCol getDigits(FILE *file){
+// Get digits from file and put them in a matrix 
+    struct MatrixLineCol getDigits(FILE *file){
         int buff[255] ;
-        int i=0;
+        int size=0;
+        int sizeArray;
+        int i=0,j=0;
+        int k=0;
+        int n;
 
-        printf("choisez le nombre de processus ");
+        printf("choose the number of processes or threads : ");
         scanf("%d",&n);
 
         if (file == NULL)
@@ -35,9 +36,9 @@
         printf("Error! Could not open file\n");
         exit(-1);
         }else{
-        while (fscanf(file, "%d", buff+i) != EOF){
-            size++;
-            i++;
+            while (fscanf(file, "%d", buff+i) != EOF){
+                size++;
+                i++;
         }
         sizeArray=size/n;
             int *intMatrix =(int *) malloc(n * sizeArray * sizeof(int));
@@ -48,9 +49,9 @@
                     k=k+sizeArray;
             }
 
-            struct MatrixLigneCol fileValueMa;
+            struct MatrixLineCol fileValueMa;
             fileValueMa.col=sizeArray;
-            fileValueMa.ligne=n;
+            fileValueMa.line=n;
             fileValueMa.matrix=intMatrix;
 
             return fileValueMa;
