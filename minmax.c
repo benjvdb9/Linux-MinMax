@@ -3,7 +3,8 @@
 #include <pthread.h>
 #include <math.h>
 #include <time.h>
-#include<math.h>
+#include <math.h>
+#include "file_test.h"
 
 void *minmax(void *val);
 void newthread(void *message);
@@ -12,12 +13,6 @@ int global_min;
 int global_max;
 int threads_completed = 0;
 pthread_mutex_t lock;
-
-int size=0;
-int sizeArray;
-int i=0,j=0;
-int k=0;
-int n;
 
 int main()
 {
@@ -46,8 +41,8 @@ int main()
 	}
 
 	while(threads_completed < n);
-	printf("GLOBAL MAX: %d\n", global_max);
 	printf("GLOBAL MIN: %d\n", global_min);
+	printf("GLOBAL MAX: %d\n", global_max);
 	
 	end = clock();
 	cpu_time = ((double) (end - start) * 1000) / CLOCKS_PER_SEC;

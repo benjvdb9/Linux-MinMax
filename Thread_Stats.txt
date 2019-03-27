@@ -1,33 +1,33 @@
 Name:	mm
-Umask:	0002
+Umask:	0022
 State:	R (running)
-Tgid:	3041
+Tgid:	4716
 Ngid:	0
-Pid:	3041
-PPid:	2897
+Pid:	4716
+PPid:	2329
 TracerPid:	0
 Uid:	1000	1000	1000	1000
 Gid:	1000	1000	1000	1000
 FDSize:	256
 Groups:	4 24 27 30 46 116 126 1000 
-NStgid:	3041
-NSpid:	3041
-NSpgid:	3041
-NSsid:	2897
+NStgid:	4716
+NSpid:	4716
+NSpgid:	4716
+NSsid:	2329
 VmPeak:	  146040 kB
 VmSize:	   82572 kB
 VmLck:	       0 kB
 VmPin:	       0 kB
-VmHWM:	    1064 kB
-VmRSS:	    1064 kB
+VmHWM:	     992 kB
+VmRSS:	     992 kB
 RssAnon:	      96 kB
-RssFile:	     968 kB
+RssFile:	     896 kB
 RssShmem:	       0 kB
 VmData:	    8536 kB
 VmStk:	     132 kB
 VmExe:	       8 kB
 VmLib:	    2308 kB
-VmPTE:	      68 kB
+VmPTE:	      72 kB
 VmSwap:	       0 kB
 HugetlbPages:	       0 kB
 CoreDumping:	0

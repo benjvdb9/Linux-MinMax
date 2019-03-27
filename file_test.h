@@ -1,3 +1,5 @@
+#ifndef FILE_TEST_H
+#define FILE_TEST_H
 
   #include <stdio.h>
   #include<stdlib.h>
@@ -76,5 +78,6 @@
         printf("See Thread_Stats.txt for Memory Usage.\n");
         fclose(source);
         fclose(target);
-        return 0;
     }
+
+#endif /* FILE_TEST_H */
