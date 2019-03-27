@@ -32,6 +32,7 @@ int main()
 	global_min = intMatrix[0];
 	global_max = intMatrix[0];
 
+	pthread_mutex_init(&lock, NULL);
 	for(int i=0; i<n; i++){
 		struct data *t_pointer, thread_msg;
 		thread_msg.size = sizeArray;
@@ -57,7 +58,6 @@ void newthread(void *message)
 	pthread_t tid;
 	int iret;
 
-	pthread_mutex_init(&lock, NULL);
 	iret = pthread_create(&tid, NULL, minmax, message);
 	pthread_join(tid, &status);
 }
