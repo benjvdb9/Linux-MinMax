@@ -8,7 +8,7 @@
 #include <time.h>
 #include "getDigits.h"
 
-#define MSGSIZE 10
+#define MSGSIZE 200
 
 
 
@@ -37,7 +37,7 @@ int main ()
 	char buffer1[MSGSIZE];
 	char buffer2[MSGSIZE];
 	char inbuf[MSGSIZE];
-	int out_pipe[MSGSIZE];
+
 	//char **pointer_out_pipe;
 	int p[2] ; // the pipe
 	pipe(p);
@@ -111,7 +111,7 @@ int main ()
 		}
 
 
-
+  int out_pipe[2*lp+2];
   printf("je suis le père  avec PID %d\n" ,  (int) getpid());
 
 	while((nbytes = read(p[0],inbuf,MSGSIZE ))!= 0)
@@ -127,7 +127,7 @@ int main ()
 
 	struct data *t_pointer, thread_msg;
 
-	thread_msg.size = 2*sizeof(out_pipe)/sizeof(out_pipe[0]);
+	thread_msg.size = sizeof(out_pipe)/sizeof(out_pipe[0]);
   printf("la size est %d", thread_msg.size);
 	thread_msg.numbers = out_pipe - 1;
 	t_pointer = &thread_msg;
