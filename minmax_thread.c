@@ -59,7 +59,6 @@ void newthread(void *message)
 	int iret;
 
 	iret = pthread_create(&tid, NULL, minmax, message);
-	pthread_join(tid, &status);
 }
 
 void *minmax(void *val)
@@ -72,7 +71,6 @@ void *minmax(void *val)
 
 	int min = values[1];
 	int max = values[1];
-	printf("START\n");
 	for (int i=1; i<=sizeVals; i++)
 	{
 		if(min > values[i]){
@@ -81,7 +79,6 @@ void *minmax(void *val)
 		if(max < values[i]){
 			max = values[i];
 		}
-		printf("%d\n", values[i]);
 	}
 
 	pthread_mutex_lock(&lock);
@@ -94,11 +91,6 @@ void *minmax(void *val)
 	threads_completed++;
 	pthread_mutex_unlock(&lock);
 
-	int res[2];
-	res[0] = min;
-	res[1] = max;
-	printf ("MIN: %d\n", res[0]);
-	printf ("MAX: %d\n", res[1]);
-
-	pthread_exit((void*) res);
+	//printf ("MIN: %d\n", min);
+	//printf ("MAX: %d\n", max);
 }
