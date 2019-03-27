@@ -36,7 +36,7 @@ while (value <=0){
 }
 
 
-  FILE*  file = fopen("fichier.txt", "w");
+  FILE*  file = fopen("data.txt", "w");
   while(i <= value-1)
   {
     if (i==0)
