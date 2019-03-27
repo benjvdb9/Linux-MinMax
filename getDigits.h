@@ -21,7 +21,7 @@
 
 // Get digits from file and put them in a matrix 
     struct MatrixLineCol getDigits(FILE *file){
-        int buff[255] ;
+        int buff[10000] ;
         int size=0;
         int sizeArray;
         int i=0,j=0;
