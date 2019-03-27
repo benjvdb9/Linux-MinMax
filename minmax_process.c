@@ -50,7 +50,7 @@ int main ()
 	FILE  * file = fopen("data.txt", "r");
 
 
-	struct MatrixLigneCol filevalue;
+	struct MatrixLineCol filevalue;
 	filevalue = getDigits(file);
 
 	int sizeArray=filevalue.col;
