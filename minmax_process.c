@@ -126,7 +126,9 @@ int main ()
 	}
 
 	struct data *t_pointer, thread_msg;
-	thread_msg.size = sizeof(out_pipe)/sizeof(out_pipe[0]);
+
+	thread_msg.size = 2*sizeof(out_pipe)/sizeof(out_pipe[0]);
+  printf("la size est %d", thread_msg.size);
 	thread_msg.numbers = out_pipe - 1;
 	t_pointer = &thread_msg;
 
