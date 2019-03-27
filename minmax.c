@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 #include <math.h>
-#include "file_test.h"
+#include "getDigits.h"
 
 void *minmax(void *val);
 void newthread(void *message);
@@ -19,7 +19,7 @@ int main()
 	clock_t start, end;
 	double cpu_time;
 	start = clock();
-	FILE  * file = fopen("le_fichier.txt", "r");
+	FILE  * file = fopen("data.txt", "r");
 
         
 	struct MatrixLigneCol filevalue;
