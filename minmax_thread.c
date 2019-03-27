@@ -22,11 +22,11 @@ int main()
 	FILE  * file = fopen("data.txt", "r");
 
         
-	struct MatrixLigneCol filevalue;
+	struct MatrixLineCol filevalue;
 	filevalue = getDigits(file);
 
 	int sizeArray=filevalue.col;
-	int n= filevalue.ligne;
+	int n= filevalue.line;
 	int *intMatrix = filevalue.matrix;
 
 	global_min = intMatrix[0];

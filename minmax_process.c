@@ -50,11 +50,11 @@ int main ()
 	FILE  * file = fopen("data.txt", "r");
 
 
-	struct MatrixLigneCol filevalue;
+	struct MatrixLineCol filevalue;
 	filevalue = getDigits(file);
 
 	int sizeArray=filevalue.col;
-	int lp= filevalue.ligne -1;
+	int lp= filevalue.line -1;
 	int *intMatrix = filevalue.matrix;
 
 	pid_t pid[lp];
