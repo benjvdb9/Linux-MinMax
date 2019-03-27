@@ -31,17 +31,20 @@
         printf("choose the number of processes or threads : ");
         scanf("%d",&n);
 
+        // test if there is a file 
         if (file == NULL)
         {
-        printf("Error! Could not open file\n");
-        exit(-1);
+            printf("Error! Could not open file\n");
+            exit(-1);
         }else{
             while (fscanf(file, "%d", buff+i) != EOF){
                 size++;
                 i++;
-        }
-        sizeArray=size/n;
+            }
+
+            sizeArray=size/n;
             int *intMatrix =(int *) malloc(n * sizeArray * sizeof(int));
+            
             for(i=0;i<n;i++){
                 for(j=0;j<sizeArray;j++){
                     *(intMatrix + i*sizeArray + j)=*(buff+k+j);
