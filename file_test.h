@@ -15,6 +15,11 @@
         int ligne, col;
     };
 
+    struct data
+    {
+        int size;
+        int *numbers;
+    };   
 
     struct MatrixLigneCol getDigits(FILE *file){
         int buff[255] ;
@@ -49,4 +54,27 @@
             return fileValueMa;
         }
 
+    }
+
+    void copyMemUse()
+    {
+        char ch;
+        FILE *source, *target;
+
+        source = fopen("/proc/self/status", "r");
+
+        if (source == NULL)
+        {
+            exit(EXIT_FAILURE);
+        }
+
+        target = fopen("Thread_Stats.txt", "w");
+
+        while((ch = fgetc(source)) != EOF)
+            fputc(ch, target);
+
+        printf("See Thread_Stats.txt for Memory Usage.\n");
+        fclose(source);
+        fclose(target);
+        return 0;
     }
