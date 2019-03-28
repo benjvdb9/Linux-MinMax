@@ -14,7 +14,7 @@
 /* declaration function*/
 pid_t create_process();
 void *minmax(void *val);
-void end(void)
+void endprocess();
 
 
 /*management of the clock*/
@@ -41,7 +41,7 @@ int main ()
 	int op = 0;
 	int nbytes;
 
-  atexit(terminer);
+  //atexit(endprocess);
 
   /* open file*/
 	FILE  * file = fopen("data.txt", "r");
@@ -76,8 +76,8 @@ int main ()
 				sprintf(buffer2, "%d",pipe_value[1] ); // put min in the buffer2
 				write(p[1],buffer1 ,MSGSIZE);// write buffer1 in the pipe
 				write(p[1],buffer2,MSGSIZE); // write buffer2 in the
-				printf("je suis le fils %d avec PID %d et de pipe_value: %d et %d\n "
-				, (int) ip, (int) getpid(), pipe_value[0], pipe_value[1]);
+				// printf("je suis le fils %d avec PID %d et de pipe_value: %d et %d\n "
+				// , (int) ip, (int) getpid(), pipe_value[0], pipe_value[1]);
       	_exit(0); // don't exec the function "atexit" for the son
         break; // stop the execution when it's a son
       }
@@ -95,19 +95,19 @@ int main ()
 		}
 
 //verification  children answers
-		while(jp<=lp){
-			if (WIFEXITED(codesortie[jp])){ //WIFEXITED(status) : returns true if the child terminated normally
-				printf("le fils %d s'est terminé normalement"
-				"avec le code de sortie  %d\n" ,  pid[jp], WEXITSTATUS(codesortie[jp])); /*WEXITSTATUS(status) : returns the exit status of the child.
-        This macro should be employed only if WIFEXITED returned true.*/
-			}
-
-			jp++;
-		}
+		// while(jp<=lp){
+		// 	if (WIFEXITED(codesortie[jp])){ //WIFEXITED(status) : returns true if the child terminated normally
+		// 		printf("le fils %d s'est terminé normalement"
+		// 		"avec le code de sortie  %d\n" ,  pid[jp], WEXITSTATUS(codesortie[jp])); /*WEXITSTATUS(status) : returns the exit status of the child.
+    //     This macro should be employed only if WIFEXITED returned true.*/
+		// 	}
+    //
+		// 	jp++;
+		// }
 
 
   int out_pipe[2*lp+2]; // array to manage the out of the pipe
-  printf("je suis le père  avec PID %d\n" ,  (int) getpid());
+//  printf("je suis le père  avec PID %d\n" ,  (int) getpid());
 
 //loop to read th pipe
   while((nbytes = read(p[0],inbuf,MSGSIZE ))!= 0)
@@ -124,10 +124,12 @@ int main ()
   //treatement of the father
 	struct data *t_pointer, thread_msg;
 	thread_msg.size = sizeof(out_pipe)/sizeof(out_pipe[0]);
-  printf("la size est %d", thread_msg.size);
+  //printf("la size est %d", thread_msg.size);
 	thread_msg.numbers = out_pipe - 1;
 	t_pointer = &thread_msg;
-	minmax(t_pointer); // execute minmax on values return by differents childen to the father
+	pipe_value  = minmax(t_pointer); // execute minmax on values return by differents childen to the father
+  printf(" le MIN est : %d", pipe_value[0]);
+  printf(" le MAX est : %d", pipe_value[1]);
 
 
 	end = clock();
@@ -160,7 +162,7 @@ void *minmax(void *val)
 
 	int min = values[1];
 	int max = values[1];
-	 printf("START\n");
+	 //printf("START\n");
 	for (int i=1; i<=sizeVals; i++)
 	{
 		if(min > values[i]){
@@ -169,19 +171,20 @@ void *minmax(void *val)
 		if(max < values[i]){
 			max = values[i];
 		}
-		printf("%d\n", values[i]);
+		//printf("%d\n", values[i]);
 	}
 
 static	int res[2];
 	res[0] = min;
 	res[1] = max;
-	printf ("MIN: %d\n", res[0]);
-	printf ("MAX: %d\n", res[1]);
+	//printf ("MIN: %d\n", res[0]);
+	//printf ("MAX: %d\n", res[1]);
 	//_exit(0);
 	return res;
 }
 
-end(void)
+void  endprocess()
 {
   printf("the father has finished his job, thanks!\n");
+
 }
