@@ -11,7 +11,7 @@
         filevalue = getDigits(file);
 
         int sizeArray=filevalue.col;
-        int n= filevalue.ligne;
+        int n= filevalue.line;
         int *intMatrix = filevalue.matrix;
 
         for(i=0;i<n;i++){
