@@ -1,0 +1,19 @@
+/root/Documents/labo_OS/Linux-MinMax/minmax_process.c: In function ‘end’:
+/root/Documents/labo_OS/Linux-MinMax/minmax_process.c:25:1: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token
+ {
+ ^
+/root/Documents/labo_OS/Linux-MinMax/minmax_process.c:144:1: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token
+ {
+ ^
+/root/Documents/labo_OS/Linux-MinMax/minmax_process.c:154:1: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token
+ {
+ ^
+/root/Documents/labo_OS/Linux-MinMax/minmax_process.c:184:1: error: expected declaration specifiers before ‘end’
+ end(void)
+ ^~~
+/root/Documents/labo_OS/Linux-MinMax/minmax_process.c:17:6: error: old-style parameter declarations in prototyped function definition
+ void end(void)
+      ^~~
+/root/Documents/labo_OS/Linux-MinMax/minmax_process.c:187: error: expected ‘{’ at end of input
+ }
+ 
