@@ -3,6 +3,7 @@
   #include<math.h>
   #include "getDigits.h"
 
+// display data that we put in the matrix
    int main()
     {
         FILE  * file = fopen("data.txt", "r");
