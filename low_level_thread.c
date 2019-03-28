@@ -26,7 +26,7 @@ int main()
 	start = clock();
 	FILE  * file = fopen("data.txt", "r");
 
-        
+
 	struct MatrixLineCol filevalue;
 	filevalue = getDigits(file);
 
@@ -49,7 +49,7 @@ int main()
 	while(threads_completed < n);
 	printf("GLOBAL MIN: %d\n", global_min);
 	printf("GLOBAL MAX: %d\n", global_max);
-	
+
 	end = clock();
 	cpu_time = ((double) (end - start) * 1000) / CLOCKS_PER_SEC;
 	printf("\nTIME: %fms\n", cpu_time);
