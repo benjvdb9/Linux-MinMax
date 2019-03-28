@@ -1,9 +1,9 @@
 #include <stdlib.h> /* pour les constantes EXIT_SUCCESS ET EXIT_FAILURE */
-#include <stdio.h> /* pour fprintf() */
-#include <unistd.h> /* pour fork */
-#include <sys/types.h> /* pour le type pid_t*/
+#include <stdio.h> /* for fprintf() */
+#include <unistd.h> /* for fork */
+#include <sys/types.h> /* for the type pid_t*/
 #include <sys/errno.h>
-#include <sys/wait.h>
+#include <sys/wait.h> /* for the  system wait*/
 #include <string.h>
 #include <time.h>
 #include "getDigits.h"
@@ -11,22 +11,19 @@
 #define MSGSIZE 200
 
 
-
+/* declaration function*/
 pid_t create_process();
-
-clock_t start, end;
-
 void *minmax(void *val);
+void end(void)
 
-void terminer(void)
-{
-  printf("j'ai terminer\n");
-}
 
+/*management of the clock*/
+clock_t start, end;
 
 
 int main ()
 {
+
   start = clock();
 
   int ip=0;
@@ -38,8 +35,7 @@ int main ()
 	char buffer2[MSGSIZE];
 	char inbuf[MSGSIZE];
 
-	//char **pointer_out_pipe;
-	int p[2] ; // the pipe
+	int p[2] ; // declaration of  pipe
 	pipe(p);
 	int	*pipe_value; //	pipe data
 	int op = 0;
@@ -47,6 +43,7 @@ int main ()
 
   atexit(terminer);
 
+  /* open file*/
 	FILE  * file = fopen("data.txt", "r");
 
 
@@ -57,7 +54,7 @@ int main ()
 	int lp= filevalue.line -1;
 	int *intMatrix = filevalue.matrix;
 
-	pid_t pid[lp];
+	pid_t pid[lp]; //create array to save differents pid
 	int codesortie[lp];
 
 
@@ -67,25 +64,22 @@ int main ()
     pid[ip] = create_process();
     if(pid[ip] ==0)
     {
-				close(p[0]); //close in read
-				struct data *t_pointer, thread_msg;
+			/*manage the son*/
+				struct data *t_pointer, thread_msg; // create struct data
 				thread_msg.size = sizeArray;
 				thread_msg.numbers = intMatrix + (ip*sizeArray) - 1;
 				t_pointer = &thread_msg;
-				pipe_value = minmax(t_pointer);
+				pipe_value = minmax(t_pointer); //return min max to pipe_value
 
 				close(p[0]); //close in read
-				sprintf(buffer1, "%d",pipe_value[0] );
-				sprintf(buffer2, "%d",pipe_value[1] );
-				write(p[1],buffer1 ,MSGSIZE);
-				write(p[1],buffer2,MSGSIZE);
+				sprintf(buffer1, "%d",pipe_value[0] ); // put min in the buffer1
+				sprintf(buffer2, "%d",pipe_value[1] ); // put min in the buffer2
+				write(p[1],buffer1 ,MSGSIZE);// write buffer1 in the pipe
+				write(p[1],buffer2,MSGSIZE); // write buffer2 in the
 				printf("je suis le fils %d avec PID %d et de pipe_value: %d et %d\n "
 				, (int) ip, (int) getpid(), pipe_value[0], pipe_value[1]);
-
-
-
-      	_exit(0); // don't exec the function "atexit" for the child
-        break;
+      	_exit(0); // don't exec the function "atexit" for the son
+        break; // stop the execution when it's a son
       }
       else
       {
@@ -94,27 +88,29 @@ int main ()
       }
     }
 
-//loop to wait the end of différents process
+//loop to wait the end of différents processes
 		while(np<=lp){
 			pid[np] = waitpid(pid[np], &codesortie[np], WUNTRACED );
 			np++;
 		}
 
-//verification of the children answers
+//verification  children answers
 		while(jp<=lp){
-			if (WIFEXITED(codesortie[jp])){
+			if (WIFEXITED(codesortie[jp])){ //WIFEXITED(status) : returns true if the child terminated normally
 				printf("le fils %d s'est terminé normalement"
-				"avec le code de sortie  %d\n" ,  pid[jp], WEXITSTATUS(codesortie[jp]));
+				"avec le code de sortie  %d\n" ,  pid[jp], WEXITSTATUS(codesortie[jp])); /*WEXITSTATUS(status) : returns the exit status of the child.
+        This macro should be employed only if WIFEXITED returned true.*/
 			}
 
 			jp++;
 		}
 
 
-  int out_pipe[2*lp+2];
+  int out_pipe[2*lp+2]; // array to manage the out of the pipe
   printf("je suis le père  avec PID %d\n" ,  (int) getpid());
 
-	while((nbytes = read(p[0],inbuf,MSGSIZE ))!= 0)
+//loop to read th pipe
+  while((nbytes = read(p[0],inbuf,MSGSIZE ))!= 0)
 	{
 		close(p[1]);
 		out_pipe[op]=atoi (inbuf);
@@ -125,14 +121,14 @@ int main ()
 		}
 	}
 
+  //treatement of the father
 	struct data *t_pointer, thread_msg;
-
 	thread_msg.size = sizeof(out_pipe)/sizeof(out_pipe[0]);
   printf("la size est %d", thread_msg.size);
 	thread_msg.numbers = out_pipe - 1;
 	t_pointer = &thread_msg;
+	minmax(t_pointer); // execute minmax on values return by differents childen to the father
 
-	minmax(t_pointer);
 
 	end = clock();
 	double cpu_time = ((double) (end - start) * 1000) / CLOCKS_PER_SEC;
@@ -144,7 +140,7 @@ int main ()
 	return 0;
 }
 
-pid_t create_process()
+ pid_t create_process()
 {
   pid_t pid;
   do {
@@ -183,4 +179,9 @@ static	int res[2];
 	printf ("MAX: %d\n", res[1]);
 	//_exit(0);
 	return res;
+}
+
+end(void)
+{
+  printf("the father has finished his job, thanks!\n");
 }
