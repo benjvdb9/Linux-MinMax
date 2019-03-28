@@ -128,8 +128,8 @@ int main ()
 	thread_msg.numbers = out_pipe - 1;
 	t_pointer = &thread_msg;
 	pipe_value  = minmax(t_pointer); // execute minmax on values return by differents childen to the father
-  printf(" le MIN est : %d", pipe_value[0]);
-  printf(" le MAX est : %d", pipe_value[1]);
+  printf("GLOBAL MIN: %d\n", pipe_value[0]);
+  printf("GLOBAL MAX: %d\n", pipe_value[1]);
 
 
 	end = clock();

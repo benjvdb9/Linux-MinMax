@@ -39,10 +39,12 @@ int main()
 
 	pthread_mutex_init(&lock, NULL);
 	for(int i=0; i<n; i++){
-		struct data *t_pointer, thread_msg;
-		thread_msg.size = sizeArray;
-		thread_msg.numbers = intMatrix + (i*sizeArray) - 1;
-		t_pointer = &thread_msg;
+		struct data *t_pointer = malloc(sizeof(struct data));
+		//struct data thread_msg;
+
+		t_pointer->size = sizeArray;
+		t_pointer->numbers = intMatrix + (i*sizeArray) - 1;
+		//it_pointer = &thread_msg;
 		newthread(t_pointer);
 	}
 
@@ -83,11 +85,10 @@ int minmax(void *val)
 	struct data *structvalues;
 	structvalues = (struct data *) val;
 	int sizeVals = structvalues->size;
-	values =  structvalues->numbers;
 
 	int min = values[1];
 	int max = values[1];
-	for (int i=1; i<=sizeVals; i++)
+	for (int i=0; i<sizeVals; i++)
 	{
 		if(min > values[i]){
 			min = values[i];
@@ -107,7 +108,7 @@ int minmax(void *val)
 	threads_completed++;
 	pthread_mutex_unlock(&lock);
 
-	//printf ("MIN: %d\n", min);
-	//printf ("MAX: %d\n", max);
+	printf ("MIN: %d\n", min);
+	printf ("MAX: %d\n", max);
 	return 0;
 }
