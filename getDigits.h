@@ -52,8 +52,8 @@
                     printf("Entered input is not a number\n");
                 }
     
-                    if(n>size)
-                        printf("The number of the  processes or threads must be less than number of digits in the file ");
+                if(n>size)
+                     printf("The number of the  processes or threads must be less than number of digits in the file ");
             }while(n>size);
             
 
