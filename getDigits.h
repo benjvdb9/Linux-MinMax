@@ -4,6 +4,7 @@
   #include <stdio.h>
   #include<stdlib.h>
   #include<math.h>
+  #include <ctype.h>
 
 //Define the MatrixLineColumn   structure 
     struct MatrixLineCol
@@ -43,10 +44,16 @@
             /* check if the number of thread/process chose by the user 
             is less than the number of digits in the file */
             do{
-                printf("choose the number of processes or threads : ");
+              
+                printf("choose the number of processes or threads :");
                 scanf("%d",&n);
-                if(n>size)
-                    printf("The number of the  processes or threads must be less than number of digits in the file ");
+                //check if input is not a number
+                if (!isdigit(n)){
+                    printf("Entered input is not a number\n");
+                }
+    
+                    if(n>size)
+                        printf("The number of the  processes or threads must be less than number of digits in the file ");
             }while(n>size);
             
 
