@@ -137,6 +137,8 @@ int main ()
 	printf("\nTIME: %fms\n", cpu_time);
 	copyMemUse();
 
+	free(intMatrix);
+	fclose(file);
 	exit(0); //execution of  function "atexit" for the father
 
 	return 0;

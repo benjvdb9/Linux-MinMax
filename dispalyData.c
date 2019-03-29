@@ -17,10 +17,11 @@
 
         for(i=0;i<n;i++){
           for(j=0;j<sizeArray;j++)
-              printf("%d ", *(intMatrix + i*sizeArray + j));
-           printf("\n");
+            printf("%d ", *(intMatrix + i*sizeArray + j));
+            printf("\n");
         }
 
+        free(intMatrix);
         printf("% d  %d ",n  ,sizeArray);
         fclose(file);
         return 0;

@@ -52,6 +52,8 @@ int main()
 	cpu_time = ((double) (end - start) * 1000) / CLOCKS_PER_SEC;
 	printf("\nTIME: %fms\n", cpu_time);
 	copyMemUse();
+	fclose(file);
+	free(intMatrix);
 	return 0;
 }
 
